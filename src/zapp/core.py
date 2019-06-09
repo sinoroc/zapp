@@ -93,12 +93,12 @@ class bdist_zapp(setuptools.Command):  # pylint: disable=invalid-name
         'keep-temp',
     ]
 
-    def __init__(self, *argv, **kwargs):
+    def __init__(self, *args, **kwargs):
         self.bdist_dir = None
         self.dist_dir = None
         self.entry_point = None
         self.keep_temp = 0
-        super().__init__(*argv, **kwargs)
+        super().__init__(*args, **kwargs)
 
     def initialize_options(self):
         """ Override """
