@@ -15,7 +15,33 @@ Standalone application
 
 .. code::
 
-    zapp myapp.pyz myapp.core:main myapp
+    zapp ~/bin/myapp myapp.cli:main 'myapp==1.2.3' 'mylib==3.2.1'
+
+    python3 -m zapp ~/bin/myapp myapp.cli:main 'myapp==1.2.3' 'mylib==3.2.1'
+
+    zapp toolmaker.pyz toolmaker.cli:main toolmaker
+    zapp pipdeptree.pyz pipdeptree:main pipdeptree
+    zapp ~/bin/httpie httpie.__main__:main httpie
+
+    # Without requirements
+    zapp zipfile.pyz zipfile:main
+
+
+Library
+-------
+
+.. code::
+
+    import zapp
+
+    zapp.core.build_zapp(
+        [
+            'myapp==1.2.3',
+            'mylib==3.2.1',
+        ],
+        'myapp.cli:main',
+        'myapp.pyz',
+    )
 
 
 Setuptools command
@@ -23,7 +49,7 @@ Setuptools command
 
 .. code::
 
-    python3 setup.py bdist_zapp --entry-point myapp.core:main
+    python3 setup.py bdist_zapp --entry-point myapp.cli:main
 
 
 Details
