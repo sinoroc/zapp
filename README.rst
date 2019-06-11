@@ -15,7 +15,17 @@ Standalone application
 
 .. code::
 
-    zapp myapp.pyz myapp.core:main myapp
+    zapp myapp.pyz myapp.cli:main 'myapp==1.2.3'
+    python3 -m zapp myapp.pyz myapp.cli:main 'myapp==1.2.3'
+
+
+Library
+-------
+
+.. code::
+
+    import zapp
+    zapp.core.build_zapp(['myapp==1.2.3'], 'myapp.cli:main', 'myapp.pyz')
 
 
 Setuptools command
@@ -23,7 +33,7 @@ Setuptools command
 
 .. code::
 
-    python3 setup.py bdist_zapp --entry-point myapp.core:main
+    python3 setup.py bdist_zapp --entry-point myapp.cli:main
 
 
 Details

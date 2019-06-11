@@ -32,7 +32,7 @@ def _venv_create(venv_dir):
     return venv_context
 
 
-def install_to_dir(target_dir, requirements):
+def _install_to_dir(target_dir, requirements):
     """ Use pip to install the requirements into a specific directory
     """
     # pip is not usable as a library, so it is much simpler and safer to just
@@ -48,15 +48,22 @@ def install_to_dir(target_dir, requirements):
         subprocess.run(command)
 
 
-def build_zipapp(source_dir, entry_point, output_file):
-    """ Build the 'zipapp' file
-    """
+def _create_zipapp_archive(source_dir, entry_point, output_file):
     zipapp.create_archive(
         source_dir,
         interpreter='/usr/bin/env python3',
         main=entry_point,
         target=output_file,
     )
+
+
+def build_zapp(requirements, entry_point, output_file):
+    """ Build a zapp binary archive
+    """
+    with tempfile.TemporaryDirectory() as install_dir:
+        if requirements:
+            _install_to_dir(install_dir, requirements)
+        _create_zipapp_archive(install_dir, entry_point, output_file)
 
 
 class bdist_zapp(setuptools.Command):  # pylint: disable=invalid-name
@@ -153,9 +160,13 @@ class bdist_zapp(setuptools.Command):  # pylint: disable=invalid-name
                 raise distutils.errors.DistutilsInternalError(
                     "can not find bdist_wheel",
                 )
-            install_to_dir(self.bdist_dir, [dist_file])
+            _install_to_dir(self.bdist_dir, [dist_file])
             self.mkpath(self.dist_dir)
-            build_zipapp(self.bdist_dir, self.entry_point, output_file)
+            _create_zipapp_archive(
+                self.bdist_dir,
+                self.entry_point,
+                output_file,
+            )
             if not self.keep_temp:
                 distutils.dir_util.remove_tree(
                     self.bdist_dir,

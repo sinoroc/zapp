@@ -4,6 +4,7 @@
 """ Module initializer """
 
 
+from . import core
 from . import meta
 
 

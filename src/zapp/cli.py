@@ -5,7 +5,6 @@
 
 
 import argparse
-import tempfile
 
 from . import core
 from . import meta
@@ -22,10 +21,7 @@ def main():
     parser.add_argument('entry_point')
     parser.add_argument('requirements', metavar='requirement', nargs='*')
     args = parser.parse_args()
-    with tempfile.TemporaryDirectory() as install_dir:
-        if args.requirements:
-            core.install_to_dir(install_dir, args.requirements)
-        core.build_zipapp(install_dir, args.entry_point, args.output_file)
+    core.build_zapp(args.requirements, args.entry_point, args.output_file)
 
 
 # EOF
