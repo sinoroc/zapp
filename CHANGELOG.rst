@@ -2,8 +2,12 @@
 
 
 .. Keep the current version number on line number 5
-0.0.2
+0.0.3.dev0
 ==========
+
+
+0.0.2
+=====
 
 2019-06-11
 
