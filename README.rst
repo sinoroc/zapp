@@ -7,6 +7,19 @@ Introduction
 Build ``zipapp`` single file Python applications easily.
 
 
+Repositories
+------------
+
+Binary distributions:
+
+* https://pypi.org/project/zapp/
+
+Source code:
+
+* https://gitlab.com/sinoroc/zapp
+* https://github.com/sinoroc/zapp
+
+
 Usage
 =====
 
