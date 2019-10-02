@@ -2,8 +2,16 @@
 
 
 .. Keep the current version number on line number 5
+0.0.3
+=====
+
+2019-10-03
+
+* Improve packaging
+
+
 0.0.2
-==========
+=====
 
 2019-06-11
 
