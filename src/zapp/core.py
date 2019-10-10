@@ -32,6 +32,18 @@ def _venv_create(venv_dir):
     return venv_context
 
 
+def _pip_install(venv_context, requirements, target_dir=None):
+    command = [
+        venv_context.env_exe,
+        '-m', 'pip',
+        'install',
+    ]
+    if target_dir:
+        command.extend(['--target', target_dir])
+    command.extend(requirements)
+    subprocess.run(command)
+
+
 def _install_to_dir(target_dir, requirements):
     """ Use pip to install the requirements into a specific directory
     """
@@ -39,13 +51,8 @@ def _install_to_dir(target_dir, requirements):
     # create a virtual environment and run a pip process from there
     with tempfile.TemporaryDirectory() as venv_dir:
         venv_context = _venv_create(venv_dir)
-        command = [
-            venv_context.env_exe,
-            '-m', 'pip',
-            'install',
-            '--target', target_dir,
-        ] + requirements
-        subprocess.run(command)
+        _pip_install(venv_context, ['wheel'])
+        _pip_install(venv_context, requirements, target_dir)
 
 
 def _create_zipapp_archive(source_dir, entry_point, output_file):
