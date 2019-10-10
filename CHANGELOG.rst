@@ -2,8 +2,12 @@
 
 
 .. Keep the current version number on line number 5
-0.0.4.dev0
-==========
+0.0.4
+=====
+
+2019-10-10
+
+* Allow *pip* to build *wheels* in the temporary virtual environment
 
 
 0.0.3
