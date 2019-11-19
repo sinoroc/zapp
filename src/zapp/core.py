@@ -41,7 +41,7 @@ def _pip_install(venv_context, requirements, target_dir=None):
     if target_dir:
         command.extend(['--target', target_dir])
     command.extend(requirements)
-    subprocess.run(command)
+    subprocess.run(command, check=True)
 
 
 def _install_to_dir(target_dir, requirements):
