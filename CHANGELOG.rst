@@ -2,6 +2,17 @@
 
 
 .. Keep the current version number on line number 5
+0.0.5
+=====
+
+2020-03-27
+
+* Use 'subprocess.check_call'
+* Add 'CONTRIBUTING.rst'
+* Fix project dependency name 'importlib-metadata'
+* Fix linting
+
+
 0.0.4
 =====
 
