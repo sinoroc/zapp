@@ -79,7 +79,7 @@ Similar applications
 .. Links
 
 .. _`shiv`: https://pypi.org/project/shiv/
-.. _`pytest`: https://pypi.org/project/pex/
+.. _`pex`: https://pypi.org/project/pex/
 .. _`superzippy`: https://pypi.org/project/superzippy/
 
 
