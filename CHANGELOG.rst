@@ -2,6 +2,14 @@
 
 
 .. Keep the current version number on line number 5
+0.0.6
+=====
+
+2020-03-30
+
+* Add support for 'requirements.txt' files
+
+
 0.0.5
 =====
 
