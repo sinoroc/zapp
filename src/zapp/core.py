@@ -32,7 +32,12 @@ def _venv_create(venv_dir):
     return venv_context
 
 
-def _pip_install(venv_context, requirements, target_dir=None):
+def _pip_install(
+        venv_context,
+        requirements=None,
+        requirements_txt=None,
+        target_dir=None,
+):
     command = [
         venv_context.env_exe,
         '-m', 'pip',
@@ -40,11 +45,14 @@ def _pip_install(venv_context, requirements, target_dir=None):
     ]
     if target_dir:
         command.extend(['--target', target_dir])
-    command.extend(requirements)
+    if requirements:
+        command.extend(requirements)
+    if requirements_txt:
+        command.extend(['--requirement', requirements_txt])
     subprocess.check_call(command)
 
 
-def _install_to_dir(target_dir, requirements):
+def _install_to_dir(target_dir, requirements=None, requirements_txt=None):
     """ Use pip to install the requirements into a specific directory
     """
     # pip is not usable as a library, so it is much simpler and safer to just
@@ -52,7 +60,12 @@ def _install_to_dir(target_dir, requirements):
     with tempfile.TemporaryDirectory() as venv_dir:
         venv_context = _venv_create(venv_dir)
         _pip_install(venv_context, ['wheel'])
-        _pip_install(venv_context, requirements, target_dir)
+        _pip_install(
+            venv_context,
+            requirements=requirements,
+            requirements_txt=requirements_txt,
+            target_dir=target_dir,
+        )
 
 
 def _create_zipapp_archive(source_dir, entry_point, output_file):
@@ -64,12 +77,21 @@ def _create_zipapp_archive(source_dir, entry_point, output_file):
     )
 
 
-def build_zapp(requirements, entry_point, output_file):
+def build_zapp(
+        output_file,
+        entry_point,
+        requirements=None,
+        requirements_txt=None,
+):
     """ Build a zapp binary archive
     """
     with tempfile.TemporaryDirectory() as install_dir:
-        if requirements:
-            _install_to_dir(install_dir, requirements)
+        if requirements or requirements_txt:
+            _install_to_dir(
+                install_dir,
+                requirements=requirements,
+                requirements_txt=requirements_txt,
+            )
         _create_zipapp_archive(install_dir, entry_point, output_file)
 
 
