@@ -14,6 +14,14 @@ import zipapp
 import setuptools
 
 
+class ZappException(Exception):
+    """Base exception class"""
+
+
+class BdistWheelMissing(ZappException):
+    """The 'setuptools' command 'bdist_wheel' can not be found"""
+
+
 class _EnvBuilder(venv.EnvBuilder):
 
     def __init__(self, *args, **kwargs):
@@ -186,9 +194,7 @@ class bdist_zapp(setuptools.Command):  # pylint: disable=invalid-name
                 if dist[0] == 'bdist_wheel':
                     dist_file = dist[2]
             if not dist_file:
-                raise distutils.errors.DistutilsInternalError(
-                    "can not find bdist_wheel",
-                )
+                raise BdistWheelMissing()
             _install_to_dir(self.bdist_dir, [dist_file])
             self.mkpath(self.dist_dir)
             _create_zipapp_archive(
