@@ -5,6 +5,8 @@
 0.0.7.dev0
 ==========
 
+* Add support for multiple 'requirements.txt' files
+
 
 0.0.6
 =====

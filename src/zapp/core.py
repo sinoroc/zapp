@@ -43,7 +43,7 @@ def _venv_create(venv_dir):
 def _pip_install(
         venv_context,
         requirements=None,
-        requirements_txt=None,
+        requirements_txts=None,
         target_dir=None,
 ):
     command = [
@@ -55,23 +55,28 @@ def _pip_install(
         command.extend(['--target', target_dir])
     if requirements:
         command.extend(requirements)
-    if requirements_txt:
-        command.extend(['--requirement', requirements_txt])
+    if requirements_txts:
+        for requirements_txt in requirements_txts:
+            command.extend(['--requirement', requirements_txt])
     subprocess.check_call(command)
 
 
-def _install_to_dir(target_dir, requirements=None, requirements_txt=None):
+def _install_to_dir(
+        target_dir,
+        requirements=None,
+        requirements_txts=None,
+):
     """ Use pip to install the requirements into a specific directory
     """
     # pip is not usable as a library, so it is much simpler and safer to just
     # create a virtual environment and run a pip process from there
     with tempfile.TemporaryDirectory() as venv_dir:
         venv_context = _venv_create(venv_dir)
-        _pip_install(venv_context, ['wheel'])
+        _pip_install(venv_context, requirements=['wheel'])
         _pip_install(
             venv_context,
             requirements=requirements,
-            requirements_txt=requirements_txt,
+            requirements_txts=requirements_txts,
             target_dir=target_dir,
         )
 
@@ -89,16 +94,16 @@ def build_zapp(
         output_file,
         entry_point,
         requirements=None,
-        requirements_txt=None,
+        requirements_txts=None,
 ):
     """ Build a zapp binary archive
     """
     with tempfile.TemporaryDirectory() as install_dir:
-        if requirements or requirements_txt:
+        if requirements or requirements_txts:
             _install_to_dir(
                 install_dir,
                 requirements=requirements,
-                requirements_txt=requirements_txt,
+                requirements_txts=requirements_txts,
             )
         _create_zipapp_archive(install_dir, entry_point, output_file)
 
@@ -195,7 +200,7 @@ class bdist_zapp(setuptools.Command):  # pylint: disable=invalid-name
                     dist_file = dist[2]
             if not dist_file:
                 raise BdistWheelMissing()
-            _install_to_dir(self.bdist_dir, [dist_file])
+            _install_to_dir(self.bdist_dir, requirements=[dist_file])
             self.mkpath(self.dist_dir)
             _create_zipapp_archive(
                 self.bdist_dir,

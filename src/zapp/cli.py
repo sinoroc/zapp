@@ -21,18 +21,18 @@ def main():
     parser.add_argument('entry_point')
     parser.add_argument('requirements', metavar='requirement', nargs='*')
     parser.add_argument(
-        '--requirement',
+        '--requirements',
         '-r',
-        dest='requirements_txt',
+        action='append',
+        dest='requirements_txts',
         metavar='requirements.txt',
-        type=argparse.FileType(),
     )
     args = parser.parse_args()
     core.build_zapp(
         args.output_file,
         args.entry_point,
         args.requirements,
-        getattr(args.requirements_txt, 'name', None),
+        args.requirements_txts,
     )
 
 
