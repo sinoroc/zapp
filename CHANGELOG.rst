@@ -2,8 +2,10 @@
 
 
 .. Keep the current version number on line number 5
-0.0.7.dev0
-==========
+0.0.7
+=====
+
+2020-04-19
 
 * Add support for multiple 'requirements.txt' files
 
