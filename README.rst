@@ -28,7 +28,8 @@ Standalone application
 
 .. code::
 
-    usage: zapp [-h] [--version] [--requirement requirements.txt]
+    $ zapp --help
+    usage: zapp [-h] [--version] [--requirements requirements.txt]
                 output_file entry_point [requirement [requirement ...]]
 
     positional arguments:
@@ -39,13 +40,13 @@ Standalone application
     optional arguments:
       -h, --help            show this help message and exit
       --version             show program's version number and exit
-      --requirement requirements.txt, -r requirements.txt
+      --requirements requirements.txt, -r requirements.txt
 
 
 .. code::
 
     zapp ~/bin/myapp myapp.cli:main 'myapp==1.2.3' 'mylib==3.2.1'
-    zapp ~/bin/myapp myapp.cli:main --requirement requirements.txt
+    zapp ~/bin/myapp myapp.cli:main --requirements A.txt --requirements B.txt
 
     python3 -m zapp ~/bin/myapp myapp.cli:main 'myapp==1.2.3' 'mylib==3.2.1'
 
@@ -53,7 +54,7 @@ Standalone application
     zapp pipdeptree.pyz pipdeptree:main pipdeptree
     zapp ~/bin/httpie httpie.__main__:main httpie
 
-    # Without requirements
+    # Without requirements (use an entry point from Python's standard library)
     zapp zipfile.pyz zipfile:main
 
 
@@ -71,7 +72,10 @@ Library
             'myapp==1.2.3',
             'mylib==3.2.1',
         ],
-        requirements_txt='requirements.txt',
+        requirements_txts=[
+            'A.txt',
+            'B.txt',
+        ],
     )
 
 
