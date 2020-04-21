@@ -8,8 +8,7 @@ from . import core
 from . import meta
 
 
-# PEP 396
-__version__ = meta.VERSION
+__version__ = meta.VERSION  # PEP 396
 
 
 # EOF
